@@ -62,3 +62,13 @@ body {
 #add:hover {
     background: #000;
 }
+.list{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #fff;
+    padding: 12px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    margin-left: 10px;
+}
