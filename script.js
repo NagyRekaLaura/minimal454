@@ -37,8 +37,8 @@ async function loadTodos() {
     const icon = isDone ? "✔" : "✖"
 
     const iconSpan = document.createElement("span")
+    iconSpan.className = "icon"
     iconSpan.textContent = icon
-    iconSpan.style.cursor = "pointer"
 
     iconSpan.addEventListener("click", async () => {
       await fetch("toggle.php", {
