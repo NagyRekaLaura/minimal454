@@ -12,7 +12,7 @@
     <input type="text" id="title" placeholder="Új todo">
     <button id="add">Hozzáadás</button>
 </div>
-<div class = "list">
+<div class="list">
     <ul id="todo-list"></ul>
 </div>
 </body>
