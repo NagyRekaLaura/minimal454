@@ -76,13 +76,18 @@ async function loadTodos() {
       }
     })
 
+    /* JAVÍTVA: toggle nem hív loadTodos()-t */
     iconSpan.addEventListener("click", async () => {
+      const newCompleted = Number(todo.completed) === 1 ? 0 : 1
+
       await fetch("toggle.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: todo.id, completed: isDone ? 0 : 1 }),
+        body: JSON.stringify({ id: todo.id, completed: newCompleted }),
       })
-      loadTodos()
+
+      todo.completed = newCompleted
+      iconSpan.textContent = newCompleted === 1 ? "✔" : "✖"
     })
 
     const titleSpan = document.createElement("span")
