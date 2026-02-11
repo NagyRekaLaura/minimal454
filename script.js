@@ -77,17 +77,41 @@ async function loadTodos() {
     })
 
     /* JAVÍTVA: toggle nem hív loadTodos()-t */
+    /* Hiba esetén a pipa/x visszaváltozik*/
     iconSpan.addEventListener("click", async () => {
-      const newCompleted = Number(todo.completed) === 1 ? 0 : 1
-
-      await fetch("toggle.php", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: todo.id, completed: newCompleted }),
-      })
+      const previousCompleted = Number(todo.completed)
+      const newCompleted = previousCompleted === 1 ? 0 : 1
 
       todo.completed = newCompleted
       iconSpan.textContent = newCompleted === 1 ? "✔" : "✖"
+
+      try {
+        const response = await fetch("toggle.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            id: todo.id,
+            completed: newCompleted,
+          }),
+        })
+
+        // Hibakezelés
+        if (!response.ok) {
+          throw new Error("Szerver hiba")
+        }
+
+        const result = await response.text()
+
+        if (result !== "ok") {
+          throw new Error("Adatbázis hiba")
+        }
+      } catch (error) {
+        // Visszaállítás az előzőre
+        todo.completed = previousCompleted
+        iconSpan.textContent = previousCompleted === 1 ? "✔" : "✖"
+
+        alert("Nem sikerült frissíteni az adatbázist!")
+      }
     })
 
     const titleSpan = document.createElement("span")
